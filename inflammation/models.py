@@ -74,9 +74,13 @@ class Person:
 
 
 class Patient(Person):
-    def __init__(self, name):
+    """Patient in an infammation study"""
+    def __init__(self, name, observations=None):
         super().__init__(name)
+
         self.observations = []
+        if observations is not None:
+            self.observations = observations
 
     def __str__(self):
         return self.name
@@ -90,29 +94,24 @@ class Patient(Person):
                 day = 0
 
         new_observation = Observation(day, value)
-
         self. observations.append(new_observation)
         return new_observation
 
+    @property
+    def last_observation(self):
+        return self.observations[-1]
+
 
 class Doctor(Person):
+    """Doctor in an inflammation study"""
     def __init__(self, name):
         super().__init__(name)
         self.patients = []
 
     def add_patient(self, new_patient):
+        """A check if the patient is already looked after by this doctor before adding them"""
         for patient in self.patients:
             if patient.name == new_patient.name:
                 return
         self.patients.append(new_patient)
 
-
-
-alice = Patient('Alice')
-print(alice)
-
-observation = alice.add_observation(3)
-print(observation)
-observation = alice.add_observation(5)
-observation = alice.add_observation(2)
-print(alice.observations)
